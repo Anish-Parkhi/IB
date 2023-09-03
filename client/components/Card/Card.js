@@ -14,7 +14,7 @@ const Card = ({data}) => {
   const naviation = useNavigation();
   return (
     <TouchableOpacity onPress={() => {
-      naviation.navigate('RoomDetails');
+      naviation.navigate('RoomDetails', {roomData: data});
     }} style={styles.cardMainContainer}>
       <View style={styles.imageContainer}>
         <Image
@@ -24,7 +24,7 @@ const Card = ({data}) => {
       </View>
       <View style={styles.bottomContainer}>
         <View style={styles.suitNameContainer}>
-          <Text style={styles.suitName}>{data.name}</Text>
+          <Text style={styles.suitName}>{data.roomName}</Text>
         </View>
         <View style={styles.descContainer}>
           <Text style={styles.description}>{data.description}</Text>
@@ -36,7 +36,7 @@ const Card = ({data}) => {
             </View>
             <View>
               <Text style={{fontSize: 12}}>Accommodate</Text>
-              <Text style={styles.accomodation}>{data.accomodation}</Text>
+              <Text style={styles.accomodation}>{data.occupancy}</Text>
             </View>
           </View>
           <View style={styles.bedInfoContainer}>
@@ -44,8 +44,8 @@ const Card = ({data}) => {
               <FontAwesomeIcon icon={faBed} size={24} color="black" />
             </View>
             <View>
-              <Text style={styles.bedInfo}>{data.bedType}</Text>
-              <Text style={styles.bedInfoNumber}>{data.bedNumber}</Text>
+              <Text style={styles.bedInfo}>{data.bedInfo.bedType}</Text>
+              <Text style={styles.bedInfoNumber}>{data.bedInfo.bedCount}</Text>
             </View>
           </View>
         </View>

@@ -2,11 +2,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import Home from './components/Home/Home';
 import Landing from './components/Landing/Landing';
-import RoomDetails from './components/RoomDetails/RoomDetails';
 import UserLogin from './components/userLogin/UserLogin';
 import UserRegistration from './components/userRegistration/UserRegistration/UserRegistration';
+import Home from './components/Home/Home';
+import RoomDetails from './components/RoomDetails/RoomDetails';
 const Stack = createStackNavigator();
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="RoomDetails">
+        initialRouteName="Home">
         <Stack.Screen name="LandingPage" component={Landing} />
         <Stack.Screen name="UserRegistration" component={UserRegistration} />
         <Stack.Screen name="UserLogin" component={UserLogin} />

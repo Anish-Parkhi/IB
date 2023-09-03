@@ -1,14 +1,18 @@
 import mongoose from 'mongoose';
 
 const roomdetailsSchema = mongoose.Schema({
-  roomNumber: {
-    type: Number,
+  roomName: {
+    type: String,
   },
   occupancy: {
     type: Number,
   },
-  amenities: [String],
+  bedInfo: {
+    bedType: String,
+    bedCount: Number, 
+  },
   price: Number,
+  rules: [String],
   availability: {
     startDate: Date,
     endDate: Date,
@@ -16,7 +20,6 @@ const roomdetailsSchema = mongoose.Schema({
   bookedDates: [Date],
   description: {
     type: String,
-    maxlength: 100,
   },
   isUnderBooking: {
     type: Boolean,

@@ -53,10 +53,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 5,
         borderRadius: 10,
+        borderColor: 'grey',
     },
     imgContainer: {
         width: '100%',
-        height: 200,
         backgroundColor: 'grey',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
@@ -84,6 +84,61 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: 'black'
+    },
+    amrnitiesMainContainer:{ 
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%'
+    },
+    iconBottomText: {
+        fontSize: 12,
+        color: 'black'
+    },
+    iconBackground: {
+        backgroundColor: 'white',
+        borderRadius: 50,
+        borderColor: 'black',
+    },
+    logo: {
+        width: '40%',
+        objectFit: 'contain'
+    },
+    rulesDescription: {
+        color: 'black'
+    },
+    rulesList: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 7,
+        alignItems: 'center',
+        gap: 5,
+    },
+    rulesContainerHeader: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'black'
+    },
+    rulesContainer: {
+        marginTop: 10,
+    },
+    buttonContainer: {
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    bookingButton: {
+        width: "40%",
+    },
+    availableContainer:{
+        marginTop: 10,
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    availableContainerText: {
+        color: '#1DA933'
+    },
+    roomImage: {
+        width: '100%',
+        objectFit: 'cover'
     }
 })
 

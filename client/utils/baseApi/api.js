@@ -5,10 +5,22 @@ const BASE_URL = 'http://192.168.143.152:3001';
 export const getApi = (url, params) => {
   return axios
     .get(`${BASE_URL}${url}`, {params})
-    .then(response => response.data)
+    .then(response => {
+      return{
+        data: response.data,
+        status: response.status,
+      }
+    })
     .catch(error => {
-      console.log('Get request error', error);
-      throw error;
+      if(error.response){
+        return {
+          data: error.response.data,
+          status: error.response.status,
+        };
+      }else{
+        console.log(`Get request error:`, error);
+        throw error;
+      }
     });
 };
 
