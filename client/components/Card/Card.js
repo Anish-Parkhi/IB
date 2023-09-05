@@ -4,18 +4,30 @@ import {
   faTimes,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import styles from './styles';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation} from '@react-navigation/native';
+import React from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import styles from './styles';
 
-const Card = ({data}) => {
+const Card = ({
+  data,
+  isRoomAvailable,
+  formattedStartDate,
+  formattedEndDate,
+}) => {
   const naviation = useNavigation();
   return (
-    <TouchableOpacity onPress={() => {
-      naviation.navigate('RoomDetails', {roomData: data});
-    }} style={styles.cardMainContainer}>
+    <TouchableOpacity
+      onPress={() => {
+        naviation.navigate('RoomDetails', {
+          roomData: data,
+          isRoomAvailable: isRoomAvailable,
+          checkIn: formattedStartDate,
+          checkOut: formattedEndDate,
+        });
+      }}
+      style={styles.cardMainContainer}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.roomImage}
@@ -52,15 +64,15 @@ const Card = ({data}) => {
         <View style={styles.availableContainer}>
           <Text
             style={
-              data.isAvailable === true
+              isRoomAvailable === true
                 ? styles.availableText
                 : styles.notAvailableText
             }>
-            {data.isAvailable === true
+            {isRoomAvailable === true
               ? 'Available on selected dates'
               : 'Not Available on selected dates'}
           </Text>
-          {data.isAvailable === true ? (
+          {isRoomAvailable === true ? (
             <FontAwesomeIcon
               style={styles.availAbleIcon}
               icon={faCheck}

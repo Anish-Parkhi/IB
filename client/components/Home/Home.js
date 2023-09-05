@@ -49,28 +49,37 @@ const Home = () => {
   const currentDate = new Date();
   const formattedStartDate = selectedStartDate?.toISOString().split('T')[0];
   const formattedEndDate = selectedEndDate?.toISOString().split('T')[0];
+  let isRoomAvailable;
+  let availabilityStatusList;
+  {
+    availabilityStatusList = roomData?.response?.map(item => {
+      isRoomAvailable = !item?.bookedDates?.some(bookedDate => {
+        const date = new Date(bookedDate);
+        return date >= selectedStartDate && date <= selectedEndDate;
+      });
+    });
+  }
+
   return (
     <ScrollView style={styles.homeMainContainer}>
       <TopNav />
       <View style={styles.searchBarContainer}>
         <View style={styles.searchIconContainer}>
-
-        <FontAwesomeIcon
-          style={styles.searchIcon}
-          icon={faSearch}
-          size={18}
-          color="black"
-        />
+          <FontAwesomeIcon
+            style={styles.searchIcon}
+            icon={faSearch}
+            size={18}
+            color="black"
+          />
         </View>
         <TextInput
           style={styles.searchBar}
           placeholder="Search"
           placeholderTextColor="#000"
-          value={''}
+          value={search}
           onChangeText={value => setSearch(value)}
         />
       </View>
-
       {/* Calendar Picker */}
 
       <TouchableOpacity
@@ -96,54 +105,64 @@ const Home = () => {
 
       {openCalendar && (
         <View>
-          <TouchableOpacity onPress={() => {
-            setOpenCalendar(false);
-          }} style={styles.closeIcon}>
+          <TouchableOpacity
+            onPress={() => {
+              setOpenCalendar(false);
+            }}
+            style={styles.closeIcon}>
             <FontAwesomeIcon icon={faTimes} />
           </TouchableOpacity>
-        <View style={styles.calenderContainer}>
-          <CalendarPicker
-            startFromMonday={true}
-            allowRangeSelection={true}
-            minDate={currentDate}
-            maxDate={new Date(2050, 6, 3)}
-            weekdays={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
-            months={[
-              'January',
-              'Febraury',
-              'March',
-              'April',
-              'May',
-              'June',
-              'July',
-              'August',
-              'September',
-              'October',
-              'November',
-              'December',
-            ]}
-            previousTitle="Previous"
-            nextTitle="Next"
-            previousTitleStyle={{marginLeft: 20}}
-            nextTitleStyle={{marginRight: 20}}
-            todayBackgroundColor="#e6ffe6"
-            selectedDayColor="#26B0EB"
-            selectedDayTextColor="#000000"
-            scaleFactor={375}
-            textStyle={{
-              fontFamily: 'Cochin',
-              color: '#000000',
-            }}
-            onDateChange={onDateChange}
-          />
-        </View>
+          <View style={styles.calenderContainer}>
+            <CalendarPicker
+              startFromMonday={true}
+              allowRangeSelection={true}
+              minDate={currentDate}
+              maxDate={new Date(2050, 6, 3)}
+              weekdays={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
+              months={[
+                'January',
+                'Febraury',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+              ]}
+              previousTitle="Previous"
+              nextTitle="Next"
+              previousTitleStyle={{marginLeft: 20}}
+              nextTitleStyle={{marginRight: 20}}
+              todayBackgroundColor="#e6ffe6"
+              selectedDayColor="#26B0EB"
+              selectedDayTextColor="#000000"
+              scaleFactor={375}
+              textStyle={{
+                fontFamily: 'Cochin',
+                color: '#000000',
+              }}
+              onDateChange={onDateChange}
+            />
+          </View>
         </View>
       )}
 
       {/* CARD COMPONENT */}
 
-      {roomData?.response?.map(item => {
-        return <Card key={item._id} data={item} />;
+      {roomData?.response?.map((item, index) => {
+        return (
+          <Card
+            formattedStartDate={formattedStartDate}
+            formattedEndDate={formattedEndDate}
+            isRoomAvailable={isRoomAvailable}
+            key={index}
+            data={item}
+          />
+        );
       })}
 
       {/* Loader  */}

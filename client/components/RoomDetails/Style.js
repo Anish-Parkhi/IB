@@ -4,7 +4,8 @@ const styles = StyleSheet.create({
     roomInfoContainer: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 5,
+        marginTop: 8,
+        marginBottom: 3,
     },
     roomAccomodationContainer: {
         display: 'flex',
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         color: 'black',
+        marginBottom: 10,
     },
     roomDescription :{
         fontSize: 12,

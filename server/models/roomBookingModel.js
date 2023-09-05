@@ -4,12 +4,11 @@ const bookRoomSchema = mongoose.Schema({
   userInfo: {
     fistName: String,
     lastName: String,
-    city: String,
     contactNumber: Number,
+    email: String,
   },
-  roomInfo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'roomdetailsmodels',
+  roomName: {
+    type: String,
     required: true,
   },
   checkInDate: {
@@ -40,6 +39,10 @@ const bookRoomSchema = mongoose.Schema({
     type: String,
     enum: ['Confirmed', 'Pending', 'Canceled'],
     default: 'Pending',
+  },
+  bookingId: {
+    type: String,
+    required: true,
   },
 });
 

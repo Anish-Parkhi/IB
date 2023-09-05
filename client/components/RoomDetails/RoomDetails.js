@@ -1,4 +1,4 @@
-import {faBed, faCheck, faUsers} from '@fortawesome/free-solid-svg-icons';
+import {faBed, faCheck, faUsers, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useRoute} from '@react-navigation/native';
 import {Button} from '@rneui/themed';
@@ -6,26 +6,16 @@ import React from 'react';
 import {Image, Text, View} from 'react-native';
 import TopNav from '../TopNav/TopNav';
 import styles from './Style';
-
-const data = {
-  name: 'Sina Suit',
-  description:
-    'Experience luxurious comfort in our spacious suite, featuring stunning city views and modern amenities.',
-  accomodation: '2+1',
-  bedType: 'King Bed',
-  bedNumber: '1',
-  isAvailable: true,
-  rules: [
-    'Check in 12 pm Check out 10 am',
-    'Govt ID required as proof',
-    'Extra mattress will not be provided ',
-  ],
-};
+import {useNavigation} from '@react-navigation/native';
 
 const RoomDetails = () => {
   const route = useRoute();
   const {roomData} = route.params;
-  console.log(roomData);
+  const {isRoomAvailable} = route.params;
+  const {checkIn} = route.params;
+  const {checkOut} = route.params;
+
+  const navigation = useNavigation();
   return (
     <View>
       <TopNav />
@@ -123,20 +113,44 @@ const RoomDetails = () => {
           {/* Available Container  */}
 
           <View style={styles.availableContainer}>
-            <Text style={styles.availableContainerText}>
-              Available on selected dates
-            </Text>
+          <Text
+            style={
+              isRoomAvailable === true
+                ? styles.availableText
+                : styles.notAvailableText
+            }>
+            {isRoomAvailable === true
+              ? 'Available on selected dates'
+              : 'Not Available on selected dates'}
+          </Text>
+          {isRoomAvailable === true ? (
             <FontAwesomeIcon
-              style={{marginLeft: 3}}
-              size={22}
-              color="#1DA933"
+              style={styles.availAbleIcon}
               icon={faCheck}
+              size={24}
+              color="#1DA933"
             />
-          </View>
+          ) : (
+            <FontAwesomeIcon
+              icon={faTimes}
+              style={styles.availAbleIcon}
+              size={24}
+              color="red"
+            />
+          )}
+        </View>
 
           {/* Booking Container  */}
           <View style={styles.buttonContainer}>
             <Button
+            onPress={() => {
+              navigation.navigate('ReviewBooking', {
+                roomData: roomData,
+                checkIn: checkIn,
+                checkOut: checkOut,
+              });
+            }}
+            disabled={!isRoomAvailable}
               containerStyle={{
                 width: '40%',
                 alignSelf: 'flex-end',
