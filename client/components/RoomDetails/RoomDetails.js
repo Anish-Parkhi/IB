@@ -19,6 +19,10 @@ const RoomDetails = () => {
   return (
     <View>
       <TopNav />
+      <View style={styles.roomDetailsHeader}>
+        <Text style={styles.header}>Room Details</Text>
+      </View>
+      <View style={styles.hr}></View>
       <View style={styles.roomDetailsContainer}>
         <View style={styles.imgContainer}>
           <Image

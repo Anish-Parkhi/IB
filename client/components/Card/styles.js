@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     },
     suitName: {
         fontSize: 23,
-        color: 'black',
+        color: '#0027B2',
         fontWeight: 'bold'
     },
     description: {
@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         marginTop: 5,
+        backgroundColor: "#E7FFDB",
+        padding: 5,
+        borderRadius: 10,
+        paddingLeft: 15
     },
     roomImage: {
         objectFit: 'cover',

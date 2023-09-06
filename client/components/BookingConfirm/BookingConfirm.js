@@ -20,54 +20,85 @@ const BookingConfirm = () => {
         console.log(err);
       });
   }, []);
-  console.log(bookingData.response);
-  const bookingInfo = bookingData.response;
+  console.log(bookingData?.response);
+  // const bookingInfo = bookingData.response;
   return (
-    <View style={styles.bookingConfirmationContainer}>
-      <View style={styles.upperContainer}>
-        <View style={styles.iconBackground}>
-          <FontAwesomeIcon icon={faCheck} size={80} color="white" />
-        </View>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 20,
-            fontWeight: '600',
-            alignSelf: 'center',
-          }}>
-          Booking Confirmed
-        </Text>
-      </View>
-      <View style={styles.lowerContainer}>
-        <Text style={styles.lowerContainerHeader}>Booking Details</Text>
-        <Text
-          style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Booking ID: {bookingInfo?.bookingId}
-        </Text>
-        <Text
-          style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Check In: {bookingInfo?.checkInDate}
-        </Text>
-        <Text
-          style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Check Out: {bookingInfo?.checkOutDate}
-        </Text>
-        <Text
-          style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Room Name: {bookingInfo?.roomName}
-        </Text>
-        <Text
-          style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Payment Status: {bookingInfo?.paymentStatus}
-        </Text>
-        <Button
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-          containerStyle={{marginTop: 18, borderRadius: 5}}
-          title="Go to Home"
-        />
-      </View>
+    <View>
+      {bookingData?.response?.map(item => {
+        return (
+          <View style={styles.bookingConfirmationContainer}>
+            <View style={styles.upperContainer}>
+              <View style={styles.iconBackground}>
+                <FontAwesomeIcon icon={faCheck} size={80} color="white" />
+              </View>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 20,
+                  fontWeight: '600',
+                  alignSelf: 'center',
+                }}>
+                Booking Confirmed
+              </Text>
+            </View>
+            <View style={styles.lowerContainer}>
+              <Text style={styles.lowerContainerHeader}>Booking Details</Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 15,
+                  padding: 3,
+                  fontWeight: '500',
+                }}>
+                Booking ID: {item?.bookingId}
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 15,
+                  padding: 3,
+                  fontWeight: '500',
+                }}>
+                Check In: {item?.checkInDate}
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 15,
+                  padding: 3,
+                  fontWeight: '500',
+                }}>
+                Check Out: {item?.checkOutDate}
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 15,
+                  padding: 3,
+                  fontWeight: '500',
+                }}>
+                Room Name: {item?.roomName}
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 15,
+                  padding: 3,
+                  fontWeight: '500',
+                }}>
+                Payment Status: {item?.paymentStatus}
+              </Text>
+              <Button
+                onPress={() => {
+                  navigation.navigate('Home');
+                }}
+                containerStyle={{marginTop: 18, borderRadius: 5}}
+                title="Go to Home"
+              />
+            </View>
+          </View>
+        );
+      })}
     </View>
   );
 };
