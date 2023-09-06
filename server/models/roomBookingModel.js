@@ -38,7 +38,7 @@ const bookRoomSchema = mongoose.Schema({
   bookingStatus: {
     type: String,
     enum: ['Confirmed', 'Pending', 'Canceled'],
-    default: 'Pending',
+    default: 'Pending', 
   },
   bookingId: {
     type: String,

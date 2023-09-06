@@ -19,7 +19,7 @@ function App() {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="Home">
+          initialRouteName="BookingConfirm">
           <Stack.Screen name="LandingPage" component={Landing} />
           <Stack.Screen name="UserRegistration" component={UserRegistration} />
           <Stack.Screen name="UserLogin" component={UserLogin} />
