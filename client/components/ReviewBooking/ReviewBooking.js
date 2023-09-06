@@ -2,7 +2,8 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {Button} from '@rneui/themed';
 import React, {useState} from 'react';
 import {Image, Text, TextInput, View} from 'react-native';
-import {v4 as uuidv4} from 'uuid';
+// import 'react-native-get-random-values';
+// import {v4 as uuidv4} from 'uuid';
 import Loader from '../../common/Loader';
 import {useUserContext} from '../../context/UserContext';
 import {postApi} from '../../utils/baseApi/api';
@@ -15,7 +16,7 @@ const ReviewBooking = () => {
   const {checkIn} = route.params;
   const {checkOut} = route.params;
   const user = useUserContext();
-  const bookingId = uuidv4();
+  // const bookingId = uuidv4();
   const [data, setData] = useState({
     userInfo: {
       firstName: user.user.firstName,
@@ -31,7 +32,7 @@ const ReviewBooking = () => {
     totalPrice: 1000,
     paymentStatus: 'Unpaid',
     bookingStatus: 'Pending',
-    bookingId: bookingId,
+    bookingId: 5,
   });
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,7 @@ const ReviewBooking = () => {
       .then(res => {
         if (res.status === 201) {
           setLoading(false);
-          navigation.navigate('BookingConfirm', {bookingId: bookingId});
+          navigation.navigate('BookingConfirm', {bookingId: 5});
         } else {
           console.log(res.data);
         }

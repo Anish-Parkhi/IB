@@ -2,13 +2,26 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Button} from '@rneui/base';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
+import {getApi} from '../../utils/baseApi/api';
 import styles from './styles';
 const BookingConfirm = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const recievedData = route.params?.data;
+  const recievedData = route.params?.bookingId;
+  const [bookingData, setBookingData] = useState([]);
+  useEffect(() => {
+    getApi(`/api/bookingConfirmation?bookingId=${recievedData}`)
+      .then(response => {
+        setBookingData(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+  console.log(bookingData.response);
+  const bookingInfo = bookingData.response;
   return (
     <View style={styles.bookingConfirmationContainer}>
       <View style={styles.upperContainer}>
@@ -29,23 +42,23 @@ const BookingConfirm = () => {
         <Text style={styles.lowerContainerHeader}>Booking Details</Text>
         <Text
           style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Booking ID: 21212121
+          Booking ID: {bookingInfo?.bookingId}
         </Text>
         <Text
           style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Check In: 20/12/2023
+          Check In: {bookingInfo?.checkInDate}
         </Text>
         <Text
           style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Check Out: 22/12/2023
+          Check Out: {bookingInfo?.checkOutDate}
         </Text>
         <Text
           style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Room Name: Sina Suit
+          Room Name: {bookingInfo?.roomName}
         </Text>
         <Text
           style={{color: 'black', fontSize: 15, padding: 3, fontWeight: '500'}}>
-          Payment Status: Completed
+          Payment Status: {bookingInfo?.paymentStatus}
         </Text>
         <Button
           onPress={() => {
