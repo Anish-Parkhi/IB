@@ -8,10 +8,8 @@ export const useUserContext = () => {
 
 export const UserProvider = ({children}) => {
   const [user, setUser] = useState({
-    firstName: 'Anish',
-    lastName: 'Parkhi',
     email: 'anishparkhi03@gmail.com',
-    phone: '9607406484',
+    name: 'Anish Parkhi',
   });
 
   return (

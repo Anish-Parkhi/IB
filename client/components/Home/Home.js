@@ -1,5 +1,6 @@
 import {faSearch, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
@@ -15,7 +16,6 @@ import {getApi} from '../../utils/baseApi/api';
 import Card from '../Card/Card';
 import TopNav from '../TopNav/TopNav';
 import styles from './styles';
-
 const Home = () => {
   const [roomData, setRoomData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,9 @@ const Home = () => {
   const [selectedStartDate, setSelectedStartDate] = useState(today);
   const [selectedEndDate, setSelectedEndDate] = useState(tomorrow);
   const [openCalendar, setOpenCalendar] = useState(false);
-  console.log(selectedStartDate, selectedEndDate);
+  const route = useRoute();
+  const userInfo = route.params;
+  console.log('from home',userInfo);
 
   const onDateChange = (date, type) => {
     if (type === 'END_DATE') {

@@ -11,6 +11,7 @@ import {
 import Loader from '../../common/Loader';
 import {postApi} from '../../utils/baseApi/api';
 import styles from './styles';
+import { useUserContext } from '../../context/UserContext';
 
 export default function UserLogin() {
   const [name, setName] = useState('');
@@ -23,19 +24,28 @@ export default function UserLogin() {
   const redirectToRegister = () => {
     navigation.navigate('UserRegistration');
   };
+  //context
+  const {user, setUser} = useUserContext();
   const handleChange = (name, value) => {
+    if (name === 'email') {
+      setUser((prevUser) => ({
+        ...prevUser,
+        email: value,
+      }));
+    }
     setData(prevData => ({
       ...prevData,
       [name]: value,
     }));
   };
+  console.log(user.email)
   const handleFormSubmit = () => {
     setLoading(true);
     postApi('/api/login', data)
       .then(res => {
         if (res.status === 200) {
           setLoading(false);
-          navigation.navigate('Home');
+          navigation.navigate('Home', {useInfo: res.data.user.emailId});
         } else if (res.status === 404) {
           Alert.alert('Invalid Credentials');
           setLoading(false);
@@ -46,7 +56,8 @@ export default function UserLogin() {
         setLoading(false);
       });
   };
-  console.log(data);
+
+  
   return (
     <ImageBackground
       style={{flex: 1}}

@@ -1,9 +1,11 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Alert, Image, TouchableOpacity, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import profile from '../../Images/Icons/profile.png';
 import styles from './styles';
 
 const TopNav = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.topLogoContainer}>
       <Image
@@ -13,7 +15,7 @@ const TopNav = () => {
       <View style={styles.accoutCircleContainer}>
         <TouchableOpacity
           onPress={() => {
-            Alert.alert('Account Info');
+            navigation.navigate('MyAccount');
           }}>
           <Image source={profile} />
         </TouchableOpacity>
