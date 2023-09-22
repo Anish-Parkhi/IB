@@ -104,9 +104,9 @@ const RoomDetails = () => {
 
           <View style={styles.rulesContainer}>
             <Text style={styles.rulesContainerHeader}>Rules</Text>
-            {roomData.rules.map(rule => {
+            {roomData.rules.map((rule,index) => {
               return (
-                <View style={styles.rulesList}>
+                <View key={index} style={styles.rulesList}>
                   <Text style={styles.rulesDescription}>•</Text>
                   <Text style={styles.rulesDescription}>{rule}</Text>
                 </View>
