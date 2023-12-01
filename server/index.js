@@ -4,28 +4,22 @@ import cors from 'cors';
 import express from 'express';
 import http from 'http';
 import mongoose from 'mongoose';
-import { Server } from 'socket.io';
 import adminRoomUpdateRouter from './routes/adminRoomUpdate.js';
+import bookingConfirmationRouter from './routes/bookingConfirmation.js';
 import roomBookingRouter from './routes/roomBooking.js';
 import roomRouter from './routes/roomdetails.js';
 import loginRouter from './routes/userLogin.js';
 import router from './routes/userRegistration.js';
-import bookingConfirmationRouter from './routes/bookingConfirmation.js'
 const app = express();
 const server = http.createServer(app);
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-const io = new Server({
-  cors: {
-    origin: '*',
-  },
-});
-export { io };
-
 app.use(cors());
+
 const PORT = process.env.PORT || 3001;
 
 const CONNECTION_URL =
-  'mongodb+srv://anishparkhi03:rFa7ysR1nRznNquV@cluster0.pce2rij.mongodb.net/?retryWrites=true&w=majority';
+  'mongodb+srv://anish:Anish3377@cluster0.pce2rij.mongodb.net/?retryWrites=true&w=majority';
 
 app.use('/api', router);
 app.use('/api', roomRouter);

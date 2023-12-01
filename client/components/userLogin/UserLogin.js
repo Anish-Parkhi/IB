@@ -1,6 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import {Button, Input} from '@rneui/themed';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   ImageBackground,
@@ -9,9 +10,9 @@ import {
   View,
 } from 'react-native';
 import Loader from '../../common/Loader';
+import {useUserContext} from '../../context/UserContext';
 import {postApi} from '../../utils/baseApi/api';
 import styles from './styles';
-import { useUserContext } from '../../context/UserContext';
 
 export default function UserLogin() {
   const [name, setName] = useState('');
@@ -20,32 +21,33 @@ export default function UserLogin() {
     emailId: '',
     password: '',
   });
+
+  const storeData = async value => {
+    try {
+      await AsyncStorage.setItem('emailId', data.emailId);
+      console.log('data stored is: ', data.emailId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    storeData();
+  }, [data.emailId]);
   const navigation = useNavigation();
   const redirectToRegister = () => {
     navigation.navigate('UserRegistration');
   };
   //context
   const {user, setUser} = useUserContext();
-  const handleChange = (name, value) => {
-    if (name === 'email') {
-      setUser((prevUser) => ({
-        ...prevUser,
-        email: value,
-      }));
-    }
-    setData(prevData => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-  console.log(user.email)
   const handleFormSubmit = () => {
     setLoading(true);
     postApi('/api/login', data)
       .then(res => {
+        console.log(data, 'data');
         if (res.status === 200) {
           setLoading(false);
-          navigation.navigate('Home', {useInfo: res.data.user.emailId});
+          navigation.navigate('Home', {useInfo: res.data.userModel.emailId});
         } else if (res.status === 404) {
           Alert.alert('Invalid Credentials');
           setLoading(false);
@@ -57,7 +59,6 @@ export default function UserLogin() {
       });
   };
 
-  
   return (
     <ImageBackground
       style={{flex: 1}}
@@ -65,19 +66,10 @@ export default function UserLogin() {
       <View style={styles.mainContainer}>
         <Text style={styles.mainHeader}>Login</Text>
         <View style={styles.registrationContainer}>
-          <Text style={styles.labelText}>Name</Text>
-          <Input
-            style={styles.inputBarStyle}
-            onChangeText={value => setName(value)}
-            inputContainerStyle={{borderBottomWidth: 0}}
-            value={data.name}
-          />
-        </View>
-        <View style={styles.registrationContainer}>
           <Text style={styles.labelText}>Email</Text>
           <Input
             style={styles.inputBarStyle}
-            onChangeText={value => handleChange('emailId', value)}
+            onChangeText={text => setData({...data, emailId: text})}
             inputContainerStyle={{borderBottomWidth: 0}}
             value={data.emailId}
           />
@@ -86,7 +78,7 @@ export default function UserLogin() {
           <Text style={styles.labelText}>Password</Text>
           <Input
             style={styles.inputBarStyle}
-            onChangeText={value => handleChange('password', value)}
+            onChangeText={text => setData({...data, password: text})}
             inputContainerStyle={{borderBottomWidth: 0}}
             value={data.password}
             secureTextEntry={true}

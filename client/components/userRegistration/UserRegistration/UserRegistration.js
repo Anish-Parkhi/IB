@@ -19,7 +19,6 @@ import Modal from 'react-native-modal';
 import Loader from '../../../common/Loader';
 import {postApi} from '../../../utils/baseApi/api';
 import styles from './styles';
-import { useUserContext } from '../../../context/UserContext';
 
 const optionsData = [
   {
@@ -36,8 +35,8 @@ export default function UserRegistration() {
   const redirectToLogin = () => {
     navigation.navigate('UserLogin');
   };
-  const user = useUserContext();
-  console.log(user)
+  // const user = useUserContext();
+  // console.log(user);
 
   //image picking mechanism
   const [imageUrl, setImageUrl] = useState('');
@@ -58,21 +57,16 @@ export default function UserRegistration() {
   //state for storing info for backend
 
   const [data, setData] = useState({
-    name: user.user.firstName + ' ' + user.user.lastName,
-    phoneNumber: user.user.phone,
-    emailId: user.user.email,
+    name: '',
+    phoneNumber: '',
+    emailId: '',
     // Imgname: '',
     // govIdImage: '',
     designation: '',
     password: '',
   });
-  console.log(user)
 
   const handleChange = (name, value) => {
-    user.setUser(prevDate => ({
-      ...prevDate,
-      [name]: value,
-    }))
     setData(prevDate => ({
       ...prevDate,
       [name]: value,
@@ -144,6 +138,7 @@ export default function UserRegistration() {
         <View style={styles.registrationContainer}>
           <Text style={styles.labelText}>Phone Number</Text>
           <Input
+            maxLength={10}
             style={styles.inputBarStyle}
             inputContainerStyle={{borderBottomWidth: 0}}
             onChangeText={value => handleChange('phoneNumber', value)}

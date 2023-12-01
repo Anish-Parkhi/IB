@@ -13,14 +13,14 @@ const userRegistrationSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  passwordHash: {
+  password: {
     type: String,
     required: true,
   },
   designation: {
     type: String,
     enum: ['Government Official', 'Non Government'],
-    // required: true,
+    required: true,
   },
   Imgname: {
     type: String,

@@ -11,6 +11,7 @@ import styles from './styles';
 
 const Landing = () => {
   const navigation = useNavigation();
+
   const redirectToLogin = () => {
     navigation.navigate('UserLogin');
   };

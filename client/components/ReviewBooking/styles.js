@@ -3,7 +3,8 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   reviewBookingContainer: {
     flex: 1,
-    backgroundColor: '#F4F4F4',
+    width: '100%',
+    // backgroundColor: '#F4F4F4',
   },
   reviewBookingContainerMain: {
     borderWidth: 1,
@@ -108,13 +109,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E2E2E2',
     backgroundColor: '#E2E2E2',
-    borderRadius: 12
+    borderRadius: 12,
   },
-  emailContainer:{
-    width:'100%',
-    alignSelf: 'center'
+  emailContainer: {
+    width: '100%',
+    alignSelf: 'center',
   },
-  inputLabelEmail:{
+  inputLabelEmail: {
     width: '98%',
     marginRight: 10,
     borderWidth: 1,
@@ -122,9 +123,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#E2E2E2',
     borderRadius: 12,
     alignSelf: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
-  inputLabelContact:{
+  inputLabelContact: {
     width: '98%',
     marginRight: 10,
     borderWidth: 1,
@@ -132,32 +133,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#E2E2E2',
     borderRadius: 12,
     alignSelf: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
-  footerContainer:{
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
+  footerContainer: {
+    // position: 'absolute',
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
     padding: 20,
     backgroundColor: 'black',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   priceFooter: {
     color: 'white',
     marginLeft: 5,
     fontSize: 20,
   },
-  priceBottomNote:{
+  priceBottomNote: {
     color: 'white',
     marginLeft: 5,
     fontSize: 12,
   },
-  bookButton:{
+  bookButton: {
     width: '50%',
-  }
+  },
 });
 
 export default styles;

@@ -1,9 +1,11 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Button} from '@rneui/themed';
 import React, {useState} from 'react';
-import {Image, ScrollView, Text, TextInput, View} from 'react-native';
+import {Image, Text, TextInput, View} from 'react-native';
 // import 'react-native-get-random-values';
 // import {v4 as uuidv4} from 'uuid';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Modal from 'react-native-modal';
 import RazorpayCheckout from 'react-native-razorpay';
 import pwdImg from '../../Images/pwdLogo.png';
 import Loader from '../../common/Loader';
@@ -18,13 +20,15 @@ const ReviewBooking = () => {
   const {checkIn} = route.params;
   const {checkOut} = route.params;
   const user = useUserContext();
+
+  const [modalVisible, setModalVisible] = useState(false);
   // const bookingId = uuidv4();
   const [data, setData] = useState({
     userInfo: {
-      firstName: user.user.firstName,
-      lastName: user.user.lastName,
-      contactNumber: user.user.phone,
-      email: user.user.email,
+      firstName: '',
+      lastName: '',
+      contactNumber: '',
+      email: '',
     },
     roomName: roomData.roomName,
     checkInDate: checkIn,
@@ -58,9 +62,13 @@ const ReviewBooking = () => {
       });
   };
   return (
-    <View style={styles.reviewBookingContainer}>
-      <TopNav />
-      <ScrollView>
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps={'always'}
+      style={{flex: 1}}
+      showsVerticalScrollIndicator={false}>
+      <View style={styles.reviewBookingContainer}>
+        <TopNav />
+        {/* <ScrollView> */}
         <View style={styles.reviewBookingContainerHeader}>
           <Text style={styles.reviewBookingContainerHeaderText}>
             Review Booking
@@ -120,6 +128,7 @@ const ReviewBooking = () => {
         </View>
 
         {/* second card  */}
+
         <View style={styles.formCard}>
           <Text style={{color: 'black'}}>Guest Information</Text>
           <View style={styles.nameContainer}>
@@ -175,53 +184,58 @@ const ReviewBooking = () => {
             </View>
           </View>
         </View>
-      </ScrollView>
+        {/* </ScrollView> */}
 
-      {/* footer  */}
+        {/* footer  */}
 
-      <View style={styles.footerContainer}>
-        <View>
-          <Text style={styles.priceFooter}>₹1000</Text>
-          <Text style={styles.priceBottomNote}>Incl of all taxes</Text>
+        <View style={styles.footerContainer}>
+          <View>
+            <Text style={styles.priceFooter}>₹1000</Text>
+            <Text style={styles.priceBottomNote}>Incl of all taxes</Text>
+          </View>
+          <Button
+            // onPress={handleBooking}
+            onPress={() => {
+              setModalVisible(true);
+              // var options = {
+              //   description: 'Room Booking Payment',
+              //   image: {pwdImg},
+              //   currency: 'INR',
+              //   key: 'rzp_test_YgvPG4xQukV3HB',
+              //   amount: '100000',
+              //   name: 'Government Rest House, Ahmednagar',
+              //   order_id: '', //Replace this with an order_id created using Orders API.
+              //   prefill: {
+              //     email: `${data.userInfo.email}`,
+              //     contact: `${data.userInfo.contactNumber}`,
+              //     name: `${data.userInfo.firstName} ${data.userInfo.lastName}`,
+              //   },
+              //   theme: {color: '#53a20e'},
+              // };
+              // RazorpayCheckout.open(options)
+              //   .then(data => {
+              //     // handle success
+              //     // alert(`Success: ${data.razorpay_payment_id}`);
+              //     alert('Payment Successful');
+              //     // handleBooking();
+              //     // navigation.navigate('BookingSlip', {bookingId: 5})
+              //   })
+              //   .catch(error => {
+              //     // handle failure
+              //     console.log(error);
+              //     alert(`Error: ${error.code} | ${error.description}`);
+              //   });
+            }}
+            containerStyle={styles.bookButton}
+            title="Book now"
+          />
         </View>
-        <Button
-          // onPress={handleBooking}
-          onPress={() => {
-            var options = {
-              description: 'Room Booking Payment',
-              image: {pwdImg},
-              currency: 'INR',
-              key: 'rzp_test_YgvPG4xQukV3HB',
-              amount: '100000',
-              name: 'Government Rest House, Ahmednagar',
-              order_id: '', //Replace this with an order_id created using Orders API.
-              prefill: {
-                email: `${data.userInfo.email}`,
-                contact: `${data.userInfo.contactNumber}`,
-                name: `${data.userInfo.firstName} ${data.userInfo.lastName}`,
-              },
-              theme: {color: '#53a20e'},
-            };
-            RazorpayCheckout.open(options)
-              .then(data => {
-                // handle success
-                // alert(`Success: ${data.razorpay_payment_id}`);
-                alert('Payment Successful');
-                // handleBooking();
-                // navigation.navigate('BookingSlip', {bookingId: 5})
-              })
-              .catch(error => {
-                // handle failure
-                console.log(error);
-                alert(`Error: ${error.code} | ${error.description}`);
-              });
-          }}
-          containerStyle={styles.bookButton}
-          title="Book now"
-        />
+        {loading && <Loader />}
       </View>
-      {loading && <Loader />}
-    </View>
+      <Modal isVisible={modalVisible}>
+        <Text>Hello World!</Text>
+      </Modal>
+    </KeyboardAwareScrollView>
   );
 };
 

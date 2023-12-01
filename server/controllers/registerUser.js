@@ -1,6 +1,6 @@
+import bcrypt from 'bcrypt';
 import multer from 'multer';
 import userRegistrationModel from '../models/userRegistrationModel.js';
-import bcrypt from 'bcrypt';
 
 const Storage = multer.diskStorage({
   destination: 'uploads',
@@ -14,11 +14,11 @@ const upload = multer({
 }).single('governmentIdImage');
 
 export const addNewUser = async (req, res) => {
-
-  const {password} = req.body;
+  const { password } = req.body;
+  console.log(password);
 
   const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   upload(req, res, async (err) => {
     if (err) {
@@ -30,13 +30,14 @@ export const addNewUser = async (req, res) => {
           phoneNumber: req.body.phoneNumber,
           emailId: req.body.emailId,
           designation: req.body.designation,
-          passwordHash: passwordHash,
+          password: hashedPassword,
           // Imgname: req.body.name,
           // govIdImage: {
           //   data: req.file.filename,
           //   contentType: 'image/png',
           // },
         });
+        await newUser.validate();
         await newUser.save();
         res.status(200).json({ message: 'user registered successfully' });
       } catch (error) {
@@ -45,4 +46,3 @@ export const addNewUser = async (req, res) => {
     }
   });
 };
-

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.225.174:3001';
+//change ip here always when connected to a new network
+const BASE_URL = 'http://192.168.1.10:3001';
 
 export const getApi = (url, params) => {
   return axios

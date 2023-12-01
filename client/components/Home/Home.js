@@ -16,6 +16,7 @@ import {getApi} from '../../utils/baseApi/api';
 import Card from '../Card/Card';
 import TopNav from '../TopNav/TopNav';
 import styles from './styles';
+
 const Home = () => {
   const [roomData, setRoomData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ const Home = () => {
   const [openCalendar, setOpenCalendar] = useState(false);
   const route = useRoute();
   const userInfo = route.params;
-  console.log('from home',userInfo);
+  console.log('from home', userInfo);
 
   const onDateChange = (date, type) => {
     if (type === 'END_DATE') {

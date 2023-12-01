@@ -13,6 +13,7 @@ import Home from './components/Home/Home';
 import Landing from './components/Landing/Landing';
 import ReviewBooking from './components/ReviewBooking/ReviewBooking';
 import RoomDetails from './components/RoomDetails/RoomDetails';
+import SplashScreen from './components/SplashScreen/SplashScreen';
 import UserLogin from './components/userLogin/UserLogin';
 import UserRegistration from './components/userRegistration/UserRegistration/UserRegistration';
 import {UserProvider} from './context/UserContext';
@@ -26,7 +27,8 @@ function App() {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="LandingPage">
+          initialRouteName="SplashScreen">
+          <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="LandingPage" component={Landing} />
           <Stack.Screen name="UserRegistration" component={UserRegistration} />
           <Stack.Screen name="UserLogin" component={UserLogin} />
