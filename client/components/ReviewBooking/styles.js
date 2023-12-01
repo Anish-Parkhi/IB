@@ -159,6 +159,30 @@ const styles = StyleSheet.create({
   bookButton: {
     width: '50%',
   },
+  modalMessageContainer: {
+    // flex: 1,
+    backgroundColor: 'white',
+    width: '85%',
+    alignSelf: 'center',
+    borderRadius: 10,
+    padding: 10,
+    color: 'black',
+    textAlign: 'center',
+    fontSize: 20,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  modalMainMessage: {
+    fontSize: 30,
+    color: 'black',
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  closeModalContainer: {
+    alignItems: 'flex-end',
+    padding: 10,
+    flexBasis: '14%',
+  },
 });
 
 export default styles;

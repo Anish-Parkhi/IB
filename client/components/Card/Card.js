@@ -19,6 +19,7 @@ const Card = ({
   const naviation = useNavigation();
   return (
     <TouchableOpacity
+      activeOpacity={1}
       onPress={() => {
         naviation.navigate('RoomDetails', {
           roomData: data,

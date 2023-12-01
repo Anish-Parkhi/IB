@@ -1,7 +1,7 @@
-import {faSearch, faTimes} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import {
   ImageBackground,
   ScrollView,
@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import Loader from '../../common/Loader';
-import {getApi} from '../../utils/baseApi/api';
+import { getApi } from '../../utils/baseApi/api';
 import Card from '../Card/Card';
 import TopNav from '../TopNav/TopNav';
 import styles from './styles';

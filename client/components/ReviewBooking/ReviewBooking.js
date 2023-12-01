@@ -1,19 +1,18 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Button} from '@rneui/themed';
 import React, {useState} from 'react';
-import {Image, Text, TextInput, View} from 'react-native';
+import {Image, Pressable, Text, TextInput, View} from 'react-native';
 // import 'react-native-get-random-values';
 // import {v4 as uuidv4} from 'uuid';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
-import RazorpayCheckout from 'react-native-razorpay';
-import pwdImg from '../../Images/pwdLogo.png';
 import Loader from '../../common/Loader';
 import {useUserContext} from '../../context/UserContext';
 import {postApi} from '../../utils/baseApi/api';
 import TopNav from '../TopNav/TopNav';
 import styles from './styles';
-
 const ReviewBooking = () => {
   const route = useRoute();
   const {roomData} = route.params;
@@ -195,6 +194,15 @@ const ReviewBooking = () => {
           </View>
           <Button
             // onPress={handleBooking}
+
+            disabled={
+              data.userInfo.firstName === ' ' ||
+              data.userInfo.lastName === ' ' ||
+              data.userInfo.email === ' ' ||
+              data.userInfo.contactNumber === ' '
+                ? false
+                : true
+            }
             onPress={() => {
               setModalVisible(true);
               // var options = {
@@ -233,7 +241,27 @@ const ReviewBooking = () => {
         {loading && <Loader />}
       </View>
       <Modal isVisible={modalVisible}>
-        <Text>Hello World!</Text>
+        <View>
+          <View style={styles.modalMessageContainer}>
+            <Text style={styles.modalMainMessage}>
+              Bookings will be opening soon!
+            </Text>
+            <Pressable
+              style={styles.closeModalContainer}
+              onPress={() => {
+                setModalVisible(false);
+              }}>
+              <FontAwesomeIcon
+                size={25}
+                style={styles.closeIconModal}
+                icon={faTimes}
+              />
+            </Pressable>
+          </View>
+          <View style={styles.redirectToHome}>
+            <Text>Go to Homepage</Text>
+          </View>
+        </View>
       </Modal>
     </KeyboardAwareScrollView>
   );

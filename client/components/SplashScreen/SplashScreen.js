@@ -11,7 +11,9 @@ export default function SplashScreen() {
     try {
       const value = await AsyncStorage.getItem('emailId');
       if (value !== null) {
-        navigation.navigate('Home', {useInfo: value});
+        setTimeout(() => {
+            navigation.navigate('Home', {useInfo: value});
+        },1000);
       } else {
         navigation.navigate('Landing');
       }
