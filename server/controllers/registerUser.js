@@ -14,11 +14,12 @@ const upload = multer({
 }).single('governmentIdImage');
 
 export const addNewUser = async (req, res) => {
-  const { password } = req.body;
-  console.log(password);
+  const { password, emailId } = req.body;
 
+  const existingUser = await userRegistrationModel.findOne({ emailId });
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
+  console.log(existingUser);
 
   upload(req, res, async (err) => {
     if (err) {
@@ -39,7 +40,16 @@ export const addNewUser = async (req, res) => {
         });
         await newUser.validate();
         await newUser.save();
-        res.status(200).json({ message: 'user registered successfully' });
+
+        if (existingUser) {
+          return res
+            .status(201)
+            .json({ message: 'User already exists with the provided emailId' });
+        } else {
+          return res
+            .status(200)
+            .json({ message: 'User registered successfully' });
+        }
       } catch (error) {
         res.status(400).json({ message: error.message });
       }

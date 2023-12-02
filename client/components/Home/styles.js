@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   homeMainContainer: {
     flex: 1,
     backgroundColor: '#F4F4F4',
-    marginBottom: 20
+    marginBottom: 20, 
   },
   topLogoContainer: {
     display: 'flex',
@@ -99,6 +99,18 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: "flex-end",
     marginRight: 20,
+  },
+  noDataContainer: {
+    height: 580,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  noDataText: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#1a2c47',
+    fontWeight: 'bold',
+    marginBottom: 150
   }
 });
 

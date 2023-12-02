@@ -12,10 +12,12 @@ export default function SplashScreen() {
       const value = await AsyncStorage.getItem('emailId');
       if (value !== null) {
         setTimeout(() => {
-            navigation.navigate('Home', {useInfo: value});
-        },1000);
+          navigation.navigate('Home', {useInfo: value});
+        }, 600);
       } else {
-        navigation.navigate('Landing');
+        setTimeout(() => {
+          navigation.navigate('LandingPage');
+        }, 600);
       }
     } catch (error) {
       console.log(error);

@@ -1,8 +1,9 @@
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useRoute } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import {faSearch, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useRoute} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {
+  Dimensions,
   ImageBackground,
   ScrollView,
   Text,
@@ -12,24 +13,26 @@ import {
 } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import Loader from '../../common/Loader';
-import { getApi } from '../../utils/baseApi/api';
+import {getApi} from '../../utils/baseApi/api';
 import Card from '../Card/Card';
 import TopNav from '../TopNav/TopNav';
 import styles from './styles';
 
+const height = Dimensions.get('window').height;
+
 const Home = () => {
   const [roomData, setRoomData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState('');
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
   const [selectedStartDate, setSelectedStartDate] = useState(today);
   const [selectedEndDate, setSelectedEndDate] = useState(tomorrow);
   const [openCalendar, setOpenCalendar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredRoomData, setFilteredRoomData] = useState([]);
   const route = useRoute();
   const userInfo = route.params;
-  console.log('from home', userInfo);
 
   const onDateChange = (date, type) => {
     if (type === 'END_DATE') {
@@ -40,20 +43,59 @@ const Home = () => {
     }
   };
 
+  const filterRooms = () => {
+    const filteredItems = roomData?.response?.filter(item => {
+      if (searchQuery === '') {
+        return item;
+      } else {
+        return item?.roomName
+          ?.toLowerCase()
+          .includes(searchQuery.toLowerCase());
+      }
+    });
+    setFilteredRoomData(filteredItems || []);
+  };
+
   useEffect(() => {
     setLoading(true);
     getApi('/api/rooms')
       .then(res => {
-        setRoomData(res.data);
-        console.log(res.status);
         if (res.status === 200) {
           setLoading(false);
+          setRoomData(res.data);
+          filterRooms();
         }
       })
       .catch(err => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    filterRooms();
+  }, [searchQuery, roomData]);
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+        {
+          text: 'No',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => BackHandler.exitApp(),
+        },
+      ]);
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  });
+
   const currentDate = new Date();
   const formattedStartDate = selectedStartDate?.toISOString().split('T')[0];
   const formattedEndDate = selectedEndDate?.toISOString().split('T')[0];
@@ -76,24 +118,13 @@ const Home = () => {
     });
   }
 
-  //filtered room data
-  const [filteredData, setFilteredData] = useState(roomData?.response);
-  const filteredRoomData = () => {
-    if (!search) {
-      setFilteredData([]);
-    } else {
-      const filteredItems = roomData?.response?.filter(item => {
-        if (item?.roomName.toLowerCase().includes(search.toLowerCase())) {
-          return item;
-        }
-      });
-      setFilteredData(filteredItems);
-    }
-  };
-
   return (
-    <ScrollView style={styles.homeMainContainer}>
-      <ImageBackground source={require('../../Images/accountbg.png')}>
+    <ScrollView
+      contentContainerStyle={{flexGrow: 1}}
+      style={styles.homeMainContainer}>
+      <ImageBackground
+        // style={{height: height}}
+        source={require('../../Images/accountbg.png')}>
         <TopNav />
         <View style={styles.searchBarContainer}>
           <View style={styles.searchIconContainer}>
@@ -108,10 +139,10 @@ const Home = () => {
             style={styles.searchBar}
             placeholder="Search"
             placeholderTextColor="#000"
-            value={search}
-            onChangeText={value => setSearch(value)}
-            returnKeyType="done"
-            onSubmitEditing={filteredRoomData}
+            value={searchQuery}
+            onChangeText={value => {
+              setSearchQuery(value);
+            }}
           />
         </View>
         {/* Calendar Picker */}
@@ -187,7 +218,7 @@ const Home = () => {
 
         {/* CARD COMPONENT */}
 
-        {roomData?.response?.map((item, index) => {
+        {filteredRoomData?.map((item, index) => {
           console.log(item.bookedDates);
           return (
             <Card
@@ -199,6 +230,12 @@ const Home = () => {
             />
           );
         })}
+
+        {filteredRoomData?.length === 0 && (
+          <View style={styles.noDataContainer}>
+            <Text style={styles.noDataText}>No Rooms Found</Text>
+          </View>
+        )}
 
         {/* Loader  */}
         {loading && <Loader />}

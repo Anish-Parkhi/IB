@@ -1,11 +1,12 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Button} from '@rneui/themed';
 import React, {useState} from 'react';
-import {Image, Pressable, Text, TextInput, View} from 'react-native';
+import {Image, Pressable, Text, TextInput, View,Dimensions} from 'react-native';
 // import 'react-native-get-random-values';
 // import {v4 as uuidv4} from 'uuid';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import LottieView from 'lottie-react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
 import Loader from '../../common/Loader';
@@ -13,6 +14,10 @@ import {useUserContext} from '../../context/UserContext';
 import {postApi} from '../../utils/baseApi/api';
 import TopNav from '../TopNav/TopNav';
 import styles from './styles';
+
+
+const height = Dimensions.get('window').height;
+
 const ReviewBooking = () => {
   const route = useRoute();
   const {roomData} = route.params;
@@ -200,8 +205,8 @@ const ReviewBooking = () => {
               data.userInfo.lastName === ' ' ||
               data.userInfo.email === ' ' ||
               data.userInfo.contactNumber === ' '
-                ? false
-                : true
+                ? true
+                : false
             }
             onPress={() => {
               setModalVisible(true);
@@ -241,25 +246,28 @@ const ReviewBooking = () => {
         {loading && <Loader />}
       </View>
       <Modal isVisible={modalVisible}>
-        <View>
-          <View style={styles.modalMessageContainer}>
+        <View style={styles.modalMessageContainer}>
+          <View style={{display: 'flex', flexDirection: 'row',gap:5}}>
             <Text style={styles.modalMainMessage}>
-              Bookings will be opening soon!
+              Bookings will open soon!
             </Text>
-            <Pressable
-              style={styles.closeModalContainer}
-              onPress={() => {
-                setModalVisible(false);
-              }}>
-              <FontAwesomeIcon
-                size={25}
-                style={styles.closeIconModal}
-                icon={faTimes}
-              />
-            </Pressable>
           </View>
-          <View style={styles.redirectToHome}>
-            <Text>Go to Homepage</Text>
+          <View style={styles.animationContainer}>
+            <LottieView
+              source={require('../../assets/animation/coming-soon.json')}
+              autoPlay
+              style={{height: height / 3}}
+            />
+          </View>
+          <View style={styles.redirectContainer}>
+            <View style={styles.redirectToHome}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('Home');
+                }}>
+                <Text style={{padding: 10, color: 'white'}}>Go to homepage</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Modal>

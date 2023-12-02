@@ -86,12 +86,18 @@ export default function UserRegistration() {
 
   const submitForm = () => {
     setLoading(true);
+
     postApi('/api/user', data)
       .then(res => {
-        setLoading(false);
-        console.log(`Request successful`, res);
-        Alert.alert('Registration Successful');
-        navigation.navigate('UserLogin');
+        if (res.status === 201) {
+          Alert.alert(res.data.message);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          console.log(`Request successful`, res);
+          Alert.alert('Registration Successful');
+          navigation.navigate('UserLogin');
+        }
       })
       .catch(err => {
         console.log(`Some error is coming`, err);
