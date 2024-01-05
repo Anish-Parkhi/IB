@@ -14,6 +14,7 @@ const RoomDetails = () => {
   const {isRoomAvailable} = route.params;
   const {checkIn} = route.params;
   const {checkOut} = route.params;
+  const {image} = route.params;
 
   const navigation = useNavigation();
   return (
@@ -27,7 +28,7 @@ const RoomDetails = () => {
         <View style={styles.imgContainer}>
           <Image
             style={styles.roomImage}
-            source={require('../../Images/roomImg.png')}
+            source={image}
           />
         </View>
         <View style={styles.bottomMainContainer}>

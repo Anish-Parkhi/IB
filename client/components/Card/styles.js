@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         padding: 0,
+        height: 200,
     },
     roomAccomodationContainer: {
         display: 'flex',

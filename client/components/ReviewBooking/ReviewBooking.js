@@ -1,11 +1,16 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Button} from '@rneui/themed';
 import React, {useState} from 'react';
-import {Image, Pressable, Text, TextInput, View,Dimensions} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 // import 'react-native-get-random-values';
 // import {v4 as uuidv4} from 'uuid';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import LottieView from 'lottie-react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modal';
@@ -14,7 +19,6 @@ import {useUserContext} from '../../context/UserContext';
 import {postApi} from '../../utils/baseApi/api';
 import TopNav from '../TopNav/TopNav';
 import styles from './styles';
-
 
 const height = Dimensions.get('window').height;
 
@@ -65,12 +69,26 @@ const ReviewBooking = () => {
         console.log(err);
       });
   };
+  const height = Dimensions.get('window').height;
+  console.log(height);
   return (
     <KeyboardAwareScrollView
       keyboardShouldPersistTaps={'always'}
-      style={{flex: 1}}
+      style={{
+        flex: 1,
+        height: height,
+        backgroundColor: '#F4F4F4',
+        display: 'flex',
+      }}
       showsVerticalScrollIndicator={false}>
-      <View style={styles.reviewBookingContainer}>
+      <View
+        style={{
+          height: height,
+          width: '100%',
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
         <TopNav />
         {/* <ScrollView> */}
         <View style={styles.reviewBookingContainerHeader}>
@@ -192,7 +210,7 @@ const ReviewBooking = () => {
 
         {/* footer  */}
 
-        <View style={styles.footerContainer}>
+        <View style={[styles.footerContainer, {height: height / 5}]}>
           <View>
             <Text style={styles.priceFooter}>₹1000</Text>
             <Text style={styles.priceBottomNote}>Incl of all taxes</Text>
@@ -247,7 +265,7 @@ const ReviewBooking = () => {
       </View>
       <Modal isVisible={modalVisible}>
         <View style={styles.modalMessageContainer}>
-          <View style={{display: 'flex', flexDirection: 'row',gap:5}}>
+          <View style={{display: 'flex', flexDirection: 'row', gap: 5}}>
             <Text style={styles.modalMainMessage}>
               Bookings will open soon!
             </Text>
@@ -265,7 +283,9 @@ const ReviewBooking = () => {
                 onPress={() => {
                   navigation.navigate('Home');
                 }}>
-                <Text style={{padding: 10, color: 'white'}}>Go to homepage</Text>
+                <Text style={{padding: 10, color: 'white'}}>
+                  Go to homepage
+                </Text>
               </Pressable>
             </View>
           </View>

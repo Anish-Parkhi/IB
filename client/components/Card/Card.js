@@ -15,6 +15,7 @@ const Card = ({
   isRoomAvailable,
   formattedStartDate,
   formattedEndDate,
+  images,
 }) => {
   const naviation = useNavigation();
   return (
@@ -26,14 +27,12 @@ const Card = ({
           isRoomAvailable: isRoomAvailable,
           checkIn: formattedStartDate,
           checkOut: formattedEndDate,
+          image: images,
         });
       }}
       style={styles.cardMainContainer}>
       <View style={styles.imageContainer}>
-        <Image
-          style={styles.roomImage}
-          source={require('../../Images/roomImg.png')}
-        />
+        <Image style={styles.roomImage} source={images} />
       </View>
       <View style={styles.bottomContainer}>
         <View style={styles.suitNameContainer}>

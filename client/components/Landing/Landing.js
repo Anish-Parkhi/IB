@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {
   Alert,
@@ -13,6 +13,7 @@ import styles from './styles';
 
 const Landing = () => {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   const redirectToLogin = () => {
     navigation.navigate('UserLogin');
@@ -23,25 +24,29 @@ const Landing = () => {
 
   useEffect(() => {
     const backAction = () => {
-      Alert.alert('Hold on!', 'Are you sure you want to go back?', [
-        {
-          text: 'No',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        {
-          text: 'Yes',
-          onPress: () => BackHandler.exitApp(),
-        },
-      ]);
-      return true;
+      if (isFocused) {
+        Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+          {
+            text: 'No',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {
+            text: 'Yes',
+            onPress: () => BackHandler.exitApp(),
+          },
+        ]);
+        return true;
+      } else {
+        return false;
+      }
     };
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       backAction,
     );
     return () => backHandler.remove();
-  });
+  }, [isFocused]);
 
   return (
     <ImageBackground

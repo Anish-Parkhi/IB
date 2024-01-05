@@ -1,8 +1,10 @@
 import {faSearch, faTimes} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {useRoute} from '@react-navigation/native';
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
+  BackHandler,
   Dimensions,
   ImageBackground,
   ScrollView,
@@ -20,6 +22,15 @@ import styles from './styles';
 
 const height = Dimensions.get('window').height;
 
+
+import img1 from '../../Images/IB_1.jpg';
+import img2 from '../../Images/IB_2.jpg';
+import img3 from '../../Images/IB_3.jpg';
+import img4 from '../../Images/IB_4.jpg';
+
+const images = [img1, img2, img3, img4];
+
+
 const Home = () => {
   const [roomData, setRoomData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,6 +44,8 @@ const Home = () => {
   const [filteredRoomData, setFilteredRoomData] = useState([]);
   const route = useRoute();
   const userInfo = route.params;
+  const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
   const onDateChange = (date, type) => {
     if (type === 'END_DATE') {
@@ -76,25 +89,29 @@ const Home = () => {
   }, [searchQuery, roomData]);
   useEffect(() => {
     const backAction = () => {
-      Alert.alert('Hold on!', 'Are you sure you want to go back?', [
-        {
-          text: 'No',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        {
-          text: 'Yes',
-          onPress: () => BackHandler.exitApp(),
-        },
-      ]);
-      return true;
+      if (isFocused) {
+        Alert.alert('Hold on!', 'Are you sure you want to go back?', [
+          {
+            text: 'No',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          {
+            text: 'Yes',
+            onPress: () => BackHandler.exitApp(),
+          },
+        ]);
+        return true;
+      } else {
+        return false;
+      }
     };
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       backAction,
     );
     return () => backHandler.remove();
-  });
+  }, [isFocused]);
 
   const currentDate = new Date();
   const formattedStartDate = selectedStartDate?.toISOString().split('T')[0];
@@ -182,7 +199,13 @@ const Home = () => {
                 startFromMonday={true}
                 allowRangeSelection={true}
                 minDate={currentDate}
-                maxDate={new Date(2050, 6, 3)}
+                maxDate={
+                  new Date(
+                    currentDate.getFullYear(),
+                    currentDate.getMonth() + 1,
+                    0,
+                  )
+                }
                 weekdays={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']}
                 months={[
                   'January',
@@ -219,7 +242,6 @@ const Home = () => {
         {/* CARD COMPONENT */}
 
         {filteredRoomData?.map((item, index) => {
-          console.log(item.bookedDates);
           return (
             <Card
               formattedStartDate={formattedStartDate}
@@ -227,6 +249,7 @@ const Home = () => {
               isRoomAvailable={availabilityStatusList[index]}
               key={index}
               data={item}
+              images={images[index % 4]} 
             />
           );
         })}

@@ -1,5 +1,6 @@
 import {faChevronRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
@@ -46,6 +47,10 @@ const routes = () => [
 
 const MyAccount = () => {
   const navigation = useNavigation();
+  const handleLogout = async () => {
+    await AsyncStorage.clear();
+    navigation.navigate('LandingPage');
+  };
   return (
     <View style={styles.accountMainContainer}>
       <ImageBackground
@@ -61,7 +66,11 @@ const MyAccount = () => {
                   <Text style={styles.routeText}>{item.routeName}</Text>
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.navigate(item.navigateTo);
+                      if (item.routeName === 'Logout') {
+                        handleLogout();
+                      } else {
+                        navigation.navigate(item.navigateTo);
+                      }
                     }}>
                     <FontAwesomeIcon
                       style={{padding: 10, marginTop: 15, marginRight: 15}}
@@ -69,9 +78,6 @@ const MyAccount = () => {
                     />
                   </TouchableOpacity>
                 </View>
-                {item.routeName === 'Logout' ? null : (
-                  <View style={styles.underline}></View>
-                )}
               </View>
             );
           })}
@@ -81,7 +87,7 @@ const MyAccount = () => {
           <View style={styles.verticalRule}></View>
           <Text style={{color: 'black'}}>Rate Us</Text>
           <View style={styles.verticalRule}></View>
-          <View style={styles.imageContainer} >
+          <View style={styles.imageContainer}>
             <Image
               style={{objectFit: 'contain', width: 40, height: 40}}
               source={require('../../../Images/pwdLogo.png')}

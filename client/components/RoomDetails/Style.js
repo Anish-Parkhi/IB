@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   roomImage: {
     width: '100%',
     objectFit: 'cover',
+    height: 200,
   },
   roomDetailsHeader: {
     marginLeft: 10,
